@@ -31,13 +31,13 @@ namespace VoiceNote
             this._ampGain = PluginConfig.Instance.Gain;
         }
 
-        public void FixedUpdate()
+        public void Update()
         {
-            var waveData = this.GetUpdatedAudio();
-            if (waveData.Length == 0) {
+            this.GetUpdatedAudio(out this._waveData);
+            if (this._waveData.Length == 0) {
                 return;
             }
-            this._audioLevel = waveData.Average(Mathf.Abs);
+            this._audioLevel = this._waveData.Average(Mathf.Abs);
             var now = Time.frameCount % s_frameCount;
             this._aveLevel[now] = this._ampGain * this._audioLevel;
             this.AudioLevel = this._aveLevel.Max();
@@ -46,12 +46,14 @@ namespace VoiceNote
                 this._frameCounter = 0;
             }
         }
-        public float[] GetUpdatedAudio()
+
+        /// <summary>
+        /// 負荷やばそう
+        /// </summary>
+        /// <param name="waveData"></param>
+        public void GetUpdatedAudio(out float[] waveData)
         {
-
             var nowAudioPos = Microphone.GetPosition(this._deviceName);
-
-            var waveData = Array.Empty<float>();
 
             if (this._lastAudioPos < nowAudioPos) {
                 var audioCount = nowAudioPos - this._lastAudioPos;
@@ -74,10 +76,11 @@ namespace VoiceNote
                 wave1.CopyTo(waveData, 0);
                 wave2.CopyTo(waveData, audioCount);
             }
+            else {
+                waveData = Array.Empty<float>();
+            }
 
             this._lastAudioPos = nowAudioPos;
-
-            return waveData;
         }
         #endregion
         //ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*
@@ -91,9 +94,10 @@ namespace VoiceNote
         private int _lastAudioPos;
         private float _audioLevel;
         private float _ampGain = 10;
-        private float[] _aveLevel = new float[s_frameCount];
+        private readonly float[] _aveLevel = new float[s_frameCount];
         private const int s_frameCount = 10;
         private int _frameCounter = 0;
+        private float[] _waveData;
         #endregion
         //ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*
         #region // 構築・破棄

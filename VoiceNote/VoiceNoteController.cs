@@ -48,25 +48,14 @@ namespace VoiceNote
         /// </summary>
         private void Awake()
         {
-            // For this particular MonoBehaviour, we only want one instance to exist at any time, so store a reference to it in a static property
-            //   and destroy any that are created while one already exists.
-            Plugin.Log?.Debug($"{this.name}: Awake()");
             this._noteVisuals = this.gameObject.GetComponent<BaseNoteVisuals>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             var tmp = Mathf.Lerp(1f, 0f, this._audioVolumeGetter.AudioLevel);
             this._noteVisuals.AnimateCutout(this._proceccedAudioLevel, tmp, 0f);
             this._proceccedAudioLevel = tmp;
-        }
-
-        /// <summary>
-        /// Called when the script is being destroyed.
-        /// </summary>
-        private void OnDestroy()
-        {
-            Plugin.Log?.Debug($"{this.name}: OnDestroy()");
         }
         #endregion
     }
