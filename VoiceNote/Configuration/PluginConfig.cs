@@ -1,7 +1,7 @@
-﻿using System;
+﻿using IPA.Config.Stores;
+using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using IPA.Config.Stores;
 using UnityEngine;
 
 [assembly: InternalsVisibleTo(GeneratedStore.AssemblyVisibilityTarget)]
@@ -17,7 +17,7 @@ namespace VoiceNote.Configuration
         public PluginConfig()
         {
             try {
-                MicrophoneDeviceName = Microphone.devices.FirstOrDefault();
+                this.MicrophoneDeviceName = Microphone.devices.FirstOrDefault();
             }
             catch (Exception) {
             }
