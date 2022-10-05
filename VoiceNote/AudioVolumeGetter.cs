@@ -41,10 +41,6 @@ namespace VoiceNote
             var now = Time.frameCount % s_frameCount;
             this._aveLevel[now] = this._ampGain * this._audioLevel;
             this.AudioLevel = this._aveLevel.Max();
-            this._frameCounter++;
-            if (this._frameCounter == s_frameCount - 1) {
-                this._frameCounter = 0;
-            }
         }
 
         /// <summary>
@@ -96,7 +92,6 @@ namespace VoiceNote
         private float _ampGain = 10;
         private readonly float[] _aveLevel = new float[s_frameCount];
         private const int s_frameCount = 10;
-        private int _frameCounter = 0;
         private float[] _waveData;
         #endregion
         //ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*ﾟ+｡｡+ﾟ*｡+ﾟ ﾟ+｡*

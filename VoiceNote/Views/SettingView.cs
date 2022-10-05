@@ -1,9 +1,6 @@
-﻿using BeatSaberMarkupLanguage;
-using BeatSaberMarkupLanguage.Attributes;
-using BeatSaberMarkupLanguage.Components;
+﻿using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.Settings;
 using BeatSaberMarkupLanguage.ViewControllers;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using VoiceNote.Configuration;
@@ -47,7 +44,7 @@ namespace VoiceNote.Views
         public SettingView()
         {
             foreach (var device in Microphone.devices) {
-                _devices.Add(device);
+                this._devices.Add(device);
             }
         }
     }
