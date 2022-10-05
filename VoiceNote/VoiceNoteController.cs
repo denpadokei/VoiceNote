@@ -57,7 +57,7 @@ namespace VoiceNote
         {
             this._noteVisuals = this.gameObject.GetComponent<BaseNoteVisuals>();
             this._noteController = this.gameObject.GetComponent<NoteController>();
-            if (this._noteController is not GameNoteController and not BurstSliderGameNoteController) {
+            if (this._noteController is GameNoteController or BurstSliderGameNoteController) {
                 this._noteVisualModifierTypePropInfo = this._noteController.GetType().GetProperty("noteVisualModifierType", BindingFlags.Public | BindingFlags.Instance);
             }
         }
