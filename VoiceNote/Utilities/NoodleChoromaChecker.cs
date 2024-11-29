@@ -6,20 +6,22 @@ namespace VoiceNote.Utilities
 {
     public class NoodleChoromaChecker : IInitializable
     {
-        public IDifficultyBeatmap Currentmap { get; private set; }
+        public BeatmapLevel Currentmap { get; private set; }
+        public BeatmapKey CurrentmapKey { get; private set; }
         public bool IsNoodle { get; private set; }
         public bool IsChroma { get; private set; }
 
         [Inject]
-        public NoodleChoromaChecker(IDifficultyBeatmap level)
+        public NoodleChoromaChecker(GameplayCoreSceneSetupData gameplayCoreSceneSetupData)
         {
-            this.Currentmap = level;
+            this.Currentmap = gameplayCoreSceneSetupData.beatmapLevel;
+            this.CurrentmapKey = gameplayCoreSceneSetupData.beatmapKey;
         }
 
-        public static bool IsNoodleMap(IDifficultyBeatmap level)
+        public static bool IsNoodleMap(BeatmapLevel level, BeatmapKey key)
         {
             if (PluginManager.EnabledPlugins.Any(x => x.Name == "NoodleExtensions")) {
-                var isIsNoodleMap = SongCore.Collections.RetrieveDifficultyData(level)?
+                var isIsNoodleMap = SongCore.Collections.RetrieveDifficultyData(level, key)?
                     .additionalDifficultyData?
                     ._requirements?.Any(x => x == "Noodle Extensions") == true;
                 return isIsNoodleMap;
@@ -28,13 +30,13 @@ namespace VoiceNote.Utilities
                 return false;
             }
         }
-        public static bool IsChromaMap(IDifficultyBeatmap level)
+        public static bool IsChromaMap(BeatmapLevel level, BeatmapKey key)
         {
             if (PluginManager.EnabledPlugins.Any(x => x.Name == "Chroma")) {
-                var isIsNoodleMap = SongCore.Collections.RetrieveDifficultyData(level)?
+                var isIsNoodleMap = SongCore.Collections.RetrieveDifficultyData(level, key)?
                     .additionalDifficultyData?
                     ._requirements?.Any(x => x == "Chroma") == true;
-                isIsNoodleMap = isIsNoodleMap || SongCore.Collections.RetrieveDifficultyData(level)?
+                isIsNoodleMap = isIsNoodleMap || SongCore.Collections.RetrieveDifficultyData(level, key)?
                     .additionalDifficultyData?
                     ._suggestions?.Any(x => x == "Chroma") == true;
                 return isIsNoodleMap;
@@ -46,8 +48,8 @@ namespace VoiceNote.Utilities
 
         public void Initialize()
         {
-            this.IsNoodle = IsNoodleMap(this.Currentmap);
-            this.IsChroma = IsChromaMap(this.Currentmap);
+            this.IsNoodle = IsNoodleMap(this.Currentmap, this.CurrentmapKey);
+            this.IsChroma = IsChromaMap(this.Currentmap, this.CurrentmapKey);
         }
     }
 }

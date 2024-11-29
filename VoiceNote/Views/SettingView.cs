@@ -38,7 +38,7 @@ namespace VoiceNote.Views
 
         public void Initialize()
         {
-            BSMLSettings.instance.AddSettingsMenu("VoiceNote", this.ResourceName, this);
+            BSMLSettings.Instance.AddSettingsMenu("VoiceNote", this.ResourceName, this);
         }
 
         public SettingView()
