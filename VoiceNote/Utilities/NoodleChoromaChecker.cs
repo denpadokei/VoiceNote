@@ -18,10 +18,10 @@ namespace VoiceNote.Utilities
             this.CurrentmapKey = gameplayCoreSceneSetupData.beatmapKey;
         }
 
-        public static bool IsNoodleMap(BeatmapLevel level, BeatmapKey key)
+        public static bool IsNoodleMap(BeatmapKey key)
         {
             if (PluginManager.EnabledPlugins.Any(x => x.Name == "NoodleExtensions")) {
-                var isIsNoodleMap = SongCore.Collections.RetrieveDifficultyData(level, key)?
+                var isIsNoodleMap = SongCore.Collections.GetCustomLevelSongDifficultyData(key)?
                     .additionalDifficultyData?
                     ._requirements?.Any(x => x == "Noodle Extensions") == true;
                 return isIsNoodleMap;
@@ -30,13 +30,13 @@ namespace VoiceNote.Utilities
                 return false;
             }
         }
-        public static bool IsChromaMap(BeatmapLevel level, BeatmapKey key)
+        public static bool IsChromaMap(BeatmapKey key)
         {
             if (PluginManager.EnabledPlugins.Any(x => x.Name == "Chroma")) {
-                var isIsNoodleMap = SongCore.Collections.RetrieveDifficultyData(level, key)?
+                var isIsNoodleMap = SongCore.Collections.GetCustomLevelSongDifficultyData(key)?
                     .additionalDifficultyData?
                     ._requirements?.Any(x => x == "Chroma") == true;
-                isIsNoodleMap = isIsNoodleMap || SongCore.Collections.RetrieveDifficultyData(level, key)?
+                isIsNoodleMap = isIsNoodleMap || SongCore.Collections.GetCustomLevelSongDifficultyData(key)?
                     .additionalDifficultyData?
                     ._suggestions?.Any(x => x == "Chroma") == true;
                 return isIsNoodleMap;
@@ -48,8 +48,8 @@ namespace VoiceNote.Utilities
 
         public void Initialize()
         {
-            this.IsNoodle = IsNoodleMap(this.Currentmap, this.CurrentmapKey);
-            this.IsChroma = IsChromaMap(this.Currentmap, this.CurrentmapKey);
+            this.IsNoodle = IsNoodleMap(this.CurrentmapKey);
+            this.IsChroma = IsChromaMap(this.CurrentmapKey);
         }
     }
 }

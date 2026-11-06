@@ -5,7 +5,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{2554BE5F-C7CB-4CB8-BBEC-44B01FE70786}</ProjectGuid>
     <TargetFramework>net48</TargetFramework>
-    <Version>1.0.0</Version>
+    <!-- Used by nicoco007/setup-beat-saber in CI. -->
+    <GameVersion>1.40.8</GameVersion>
+    <Version>2.0.0</Version>
     <LangVersion>9</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
