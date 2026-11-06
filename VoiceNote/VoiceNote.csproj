@@ -7,7 +7,7 @@
     <TargetFramework>net48</TargetFramework>
     <!-- Used by nicoco007/setup-beat-saber in CI. -->
     <GameVersion>1.40.8</GameVersion>
-    <Version>1.1.0</Version>
+    <Version>2.0.0</Version>
     <LangVersion>9</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
